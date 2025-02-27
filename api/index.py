@@ -41,7 +41,7 @@ async def check_mail(client):
         #data = json.dumps(data)
         #response = await client.get("https://mdevelopeur.retailcrm.ru/api/v5/orders/create?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G", data=data)
         #print(response)
-        print('OK')
+        print('OK', data)
         for num in data[0].split():
             print(num)
             result, data = imap.uid('fetch', num, '(RFC822)')
