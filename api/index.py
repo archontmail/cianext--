@@ -13,7 +13,7 @@ import re
 
 app = FastAPI()
 
-#hook = 'https://hook.eu2.make.com/qk5rqffp5iphdj0k5v7dbqvr3v5jp3kg'
+hook = 'https://hook.eu2.make.com/qk5rqffp5iphdj0k5v7dbqvr3v5jp3kg'
 hostName = "localhost"
 serverPort = 8080
 #url = 'https://b24-002xma.bitrix24.ru/rest/1/ofz3113rxnyv8qfv/'
@@ -49,7 +49,7 @@ async def check_mail(client):
                 print('To:' + email_message['To'])
                 print('Date:' + email_message['Date'])
                 print('Subject:' + str(email_message['Subject']))
-                #response = await client.get(hook + '?Subject=' + email_message['Subject'] + '&email=' + email_message['From'])
+                response = await client.get(hook + '?Subject=' + email_message['Subject'] + '&email=' + email_message['From'])
                 print(response)
     return None
 
