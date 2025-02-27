@@ -25,8 +25,8 @@ headers = {
   'Content-Type': 'application/json'
 }
 
-password = "M3Eva6YCigJXNt0bZyGc"
-username = "dosmtv@mail.ru"
+password = "zrAUqnFWgD14Ygkq13VK"
+username = "kworktestbox@mail.ru"
 imap_server = "imap.mail.ru"
 
 async def check_mail(client):
