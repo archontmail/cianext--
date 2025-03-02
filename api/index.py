@@ -34,7 +34,7 @@ async def check_mail(client):
     print('checking started')
     list = await client.get(orderlist)
     print(list)
-    payload = { order: '"lastName":"ghhv@mail.ru"}'}
+    payload = { order: '{"lastName":"ghhv@mail.ru"}'}
     response = await client.post(retailCRM, payload)
     print(response.content)
     return response.content
