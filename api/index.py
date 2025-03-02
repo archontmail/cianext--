@@ -13,6 +13,7 @@ import re
 
 app = FastAPI()
 
+retailCRM = 'https://mdevelopeur.retailcrm.ru/api/v5/orders/create'
 hook = 'https://hook.eu2.make.com/qk5rqffp5iphdj0k5v7dbqvr3v5jp3kg'
 hostName = "localhost"
 serverPort = 8080
@@ -37,7 +38,7 @@ async def check_mail(client):
     imap.select("INBOX")
     result, data = imap.uid('search', None, "UNSEEN")
     if result == 'OK':
-        #data = { 'order': { 'email': 'ghhv@mail.ru'}}
+        payload = { "order": "{ 'subject': 'ghhv@mail.ru'}"}
         #data = json.dumps(data)
         #response = await client.get("https://mdevelopeur.retailcrm.ru/api/v5/orders/create?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G", data=data)
         #print(response)
@@ -51,12 +52,12 @@ async def check_mail(client):
                 print('To:' + email_message['To'])
                 print('Date:' + email_message['Date'])
                 print('Subject:' + str(email_message['Subject']))
-                response = await client.get(hook + '?Subject=' + email_message['Subject'] + '&email=' + email_message['From'])
+                response = await client.post(retailCRM, payload)
+                #response = await client.get(hook + '?Subject=' + email_message['Subject'] + '&email=' + email_message['From'])
                 print(response)
+                return response
     return None
-
-
-
+  
 # Глобальная переменная для pipeline_id
 pipeline_id = 8412118
 
