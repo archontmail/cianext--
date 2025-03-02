@@ -35,7 +35,10 @@ async def check_mail(client):
     list = await client.get(orderlist)
     print(list)
     payload = { order: '{"lastName":"ghhv@mail.ru"}'}
-    response = await client.post(retailCRM, payload)
+    try:
+        response = await client.post(retailCRM, payload)
+    except Exception as e:
+        print(repr(e))
     print(response.content)
     return response.content
     imap = imaplib.IMAP4_SSL(imap_server)
