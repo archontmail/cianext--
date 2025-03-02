@@ -35,7 +35,8 @@ async def check_mail(client):
     list = await client.get(orderlist)
     print(list)
     payload = { order: '{"lastName":"ghhv@mail.ru"}'}
-    try:
+    try: 
+        print('trying to post')
         response = await client.post(retailCRM, data={'key': 'value'})
     except Exception as e:
         print(repr(e))
