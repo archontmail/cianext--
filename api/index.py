@@ -40,8 +40,8 @@ async def check_mail(client):
     if result == 'OK':
         payload = { order: '"lastName":"ghhv@mail.ru"}'}
         response = await client.post(retailCRM, payload)
-        print(response)
-        return response
+        print(response.content)
+        return response.content
         #data = json.dumps(data)
         #response = await client.get("https://mdevelopeur.retailcrm.ru/api/v5/orders/create?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G", data=data)
         #print(response)
