@@ -12,7 +12,7 @@ import base64
 import re
 
 app = FastAPI()
-
+orderlist = 'https://mdevelopeur.retailcrm.ru/api/v5/orders?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
 retailCRM = 'https://mdevelopeur.retailcrm.ru/api/v5/orders/create?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
 hook = 'https://hook.eu2.make.com/qk5rqffp5iphdj0k5v7dbqvr3v5jp3kg'
 hostName = "localhost"
@@ -32,6 +32,8 @@ imap_server = "imap.mail.ru"
 
 async def check_mail(client):
     print('checking started')
+    list = await client.get(orderlist)
+    print(list)
     payload = { order: '"lastName":"ghhv@mail.ru"}'}
     response = await client.post(retailCRM, payload)
     print(response.content)
