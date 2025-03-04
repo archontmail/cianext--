@@ -75,7 +75,8 @@ async def get_mail(username, password, imap_server):
             name = re.search('(.*) <' + msg.from_ + '>', msg.from_values.full).group(1).split(' ')
             print(name)
             lastName = name[-1]
-            firstName = ' '.join(name.pop[-1])
+            name.pop(-1)
+            firstName = ' '.join(name)
             print(firstName, lastName)
             data = {email: msg.from_, first_name: firstName, last_name: lastName, subject: msg.subject, text: msg.text, html: msg.html, attachments: attachments}
             print(data.email)
