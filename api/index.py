@@ -69,7 +69,7 @@ async def get_mail(username, password, imap_server):
             attachments = []
             for a in msg.attachments:
                 print(a.filename)
-                await attachments.append({name: a.filename, payload : a.payload})
+                attachments.append({name: a.filename, payload : a.payload})
             print(len(attachments))
             name = re.search('(.*) <' + msg.from_ + '>', msg.from_values.full).group(1).split(' ')
             lastName = name[-1]
