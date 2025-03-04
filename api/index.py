@@ -29,11 +29,14 @@ imap_server = "imap.mail.ru"
 
 async def main(client):
     messages = await get_mail(username, password, imap_server)
-    for msg in messages :
+    for msg in messages : 
         result = await post_order(client, msg.first_name, msg.last_name, msg.email, msg.text, msg.html, msg.attchments)
         return result    
+
 async def post_order(client, first_name, last_name, email, subject, text, html, attachments):
+    print('posting...')
     result = await client.post(url + 'files/upload', data = attachments[0].payload, headers = headers)
+    print('result': result)
     return result 
 async def get_mail(username, password, imap_server):
     array = []
