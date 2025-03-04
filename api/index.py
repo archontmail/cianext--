@@ -66,10 +66,10 @@ async def get_mail(username, password, imap_server):
     with MailBox(imap_server).login(username, password) as mailbox:
         print('fetching...')
         for msg in mailbox.fetch(AND(seen=False)):
-            name = re.search('(.*) <' + msg.from_ + '>', msg.from_values.full)#.split(' ')
+            name = re.search('(.*) <' + msg.from_ + '>', msg.from_values.full)#.string.split(' ')
             #lastName 
             #data = { email: msg.from_, first_name: name }
-            print(msg.date, msg.from_, msg.subject, msg.from_values,name.groups(), len(msg.text or msg.html))
+            print(msg.date, msg.from_, msg.subject, msg.from_values,name.groups(0), len(msg.text or msg.html))
 
 
 async def task():
