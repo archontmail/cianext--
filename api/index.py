@@ -10,6 +10,7 @@ from imap_tools import MailBox, AND
 from email.header import decode_header
 import base64
 import re
+import retailcrm
 
 app = FastAPI()
 url = 'https://mdevelopeur.retailcrm.ru/api/v5/orders'
@@ -60,11 +61,13 @@ async def main(client):
     return None
  
 async def get_mail(username, password, imap_server):
+    array = []
     print('connecting to imap server...')
     with MailBox(imap_server).login(username, password) as mailbox:
         print('fetching...')
         for msg in mailbox.fetch(AND(seen=False)):
-            print(msg.date, msg.subject, len(msg.text or msg.html))
+            
+            print(msg.date, msg.from_, msg.subject, len(msg.text or msg.html))
 
 
 async def task():
