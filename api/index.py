@@ -36,6 +36,7 @@ async def main(client):
 async def post_order(client, first_name, last_name, email, subject, text, html, attachments):
     print('posting...')
     result = await client.post(url + 'files/upload', files = {'upload-file':(attachments[0].filename, attachments[0].payload)}, headers = headers)
+    print(attachments[0].payload)
     print('result: ', result)
     return result 
 async def get_mail(username, password, imap_server):
