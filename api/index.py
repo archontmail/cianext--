@@ -65,9 +65,9 @@ async def get_mail(username, password, imap_server):
         print(msg.date, msg.subject, len(msg.text or msg.html))
 
 
-async def task(data, type, lead, start):
+async def task():
     async with httpx.AsyncClient() as client:
-        tasks = [check_mail(client) for i in range(1)]
+        tasks = [main(client) for i in range(1)]
         result = await asyncio.gather(*tasks)
         return result
 
