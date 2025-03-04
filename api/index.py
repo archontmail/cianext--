@@ -30,7 +30,7 @@ imap_server = "imap.mail.ru"
 async def main(client):
     messages = await get_mail(username, password, imap_server)
     for msg in messages : 
-        result = await post_order(client, msg.first_name, msg.last_name, msg.email, msg.text, msg.html, msg.attchments)
+        result = await post_order(client, msg["first_name"], msg["last_name"], msg["email"], msg["text"], msg["html"], msg["attachments"])
         return result    
 
 async def post_order(client, first_name, last_name, email, subject, text, html, attachments):
