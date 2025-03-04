@@ -79,7 +79,7 @@ async def get_mail(username, password, imap_server):
             firstName = ' '.join(name)
             print(firstName, lastName)
             data = {"email": msg.from_, "first_name": firstName, "last_name": lastName, "subject": msg.subject, "text": msg.text, "html": msg.html, "attachments": attachments}
-            print(data.email)
+            print(data["email"])
             print(msg.date, msg.from_, msg.subject, msg.from_values,name.group(1), len(msg.text or msg.html))
 
 
