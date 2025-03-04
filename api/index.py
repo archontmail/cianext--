@@ -6,7 +6,7 @@ import asyncio
 import json
 import imaplib
 import email
-from imap_tools import MailBox
+from imap_tools import MailBox, AND
 from email.header import decode_header
 import base64
 import re
@@ -63,7 +63,7 @@ async def get_mail(username, password, imap_server):
     print('connecting to imap server...')
     with MailBox(imap_server).login(username, password) as mailbox:
         print('fetching...')
-        for msg in mailbox.fetch(seen= False):
+        for msg in mailbox.fetch(AND(seen=False)):
             print(msg.date, msg.subject, len(msg.text or msg.html))
 
 
