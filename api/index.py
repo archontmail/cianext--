@@ -69,7 +69,7 @@ async def get_mail(username, password, imap_server):
             name = re.search('(.*) <' + msg.from_ + '>', msg.from_values.full)#.split(' ')
             #lastName 
             #data = { email: msg.from_, first_name: name }
-            print(msg.date, msg.from_, msg.subject, msg.from_values,name, len(msg.text or msg.html))
+            print(msg.date, msg.from_, msg.subject, msg.from_values,name.grops(), len(msg.text or msg.html))
 
 
 async def task():
