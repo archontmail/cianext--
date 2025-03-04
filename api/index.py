@@ -13,7 +13,7 @@ import re
 import retailcrm
 
 app = FastAPI()
-url = 'https://mdevelopeur.retailcrm.ru/api/v5/orders'
+url = 'https://mdevelopeur.retailcrm.ru/api/v5/'
 apikey = 'nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
 hook = 'https://hook.eu2.make.com/qk5rqffp5iphdj0k5v7dbqvr3v5jp3kg'
 hostName = "localhost"
@@ -30,36 +30,12 @@ username = "kworktestbox@mail.ru"
 imap_server = "imap.mail.ru"
 
 async def main(client):
-    try: 
-        print('trying to post')
-        #response = await client.post(retailCRM, data={'order': '{"lastName":"ghhv@mail.ru"}'})
-    except Exception as e:
-        print(repr(e))
-    #print(response.content)
-    #return response.content
-    await get_mail(username, password, imap_server)
-    imap = imaplib.IMAP4_SSL(imap_server)
-    print(imap)
-    print(imap.login(username, password))
-    imap.select("INBOX")
-    result, data = imap.uid('search', None, "UNSEEN")
-    if result == 'OK':      
-        print('OK', data)
-        for num in data[0].split():
-            print(num)
-            result, data = imap.uid('fetch', num, '(RFC822)')
-            if result == 'OK':
-                email_message = email.message_from_bytes(data[0][1])
-                print('From:' + email_message['From'])
-                print('To:' + email_message['To'])
-                print('Date:' + email_message['Date'])
-                print('Subject:' + str(email_message['Subject']))
-                response = await client.post(retailCRM, payload)
-                
-                print(response)
-                return response
-    return None
- 
+    messages = await get_mail(username, password, imap_server)
+    for msg in messages :
+        await post_order(client, msg.first_name, msg.last_name, msg.email, msg.text, msg.html, msg.attchments)
+             
+async def post_order(client, first_name, last_name, email, subject, text, html, attachments):
+    
 async def get_mail(username, password, imap_server):
     array = []
     print('connecting to imap server...')
@@ -80,8 +56,9 @@ async def get_mail(username, password, imap_server):
             print(firstName, lastName)
             data = {"email": msg.from_, "first_name": firstName, "last_name": lastName, "subject": msg.subject, "text": msg.text, "html": msg.html, "attachments": attachments}
             print(data["email"])
-            print(msg.date, msg.from_, msg.subject, msg.from_values,name.group(1), len(msg.text or msg.html))
-
+            print(msg.date, msg.from_, msg.subject, msg.from_values,name, len(msg.text or msg.html))
+            array.append(data)
+        return array
 
 async def task():
     async with httpx.AsyncClient() as client:
