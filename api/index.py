@@ -14,6 +14,7 @@ import re
 app = FastAPI()
 orderlist = 'https://mdevelopeur.retailcrm.ru/api/v5/orders?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
 retailCRM = 'https://mdevelopeur.retailcrm.ru/api/v5/orders/create?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
+apikey = 'X-API-KEY
 hook = 'https://hook.eu2.make.com/qk5rqffp5iphdj0k5v7dbqvr3v5jp3kg'
 hostName = "localhost"
 serverPort = 8080
@@ -34,7 +35,6 @@ async def check_mail(client):
     print('checking started')
     list = await client.get(orderlist)
     print(list)
-    #payload = { order: '{"lastName":"ghhv@mail.ru"}'}
     try: 
         print('trying to post')
         response = await client.post(retailCRM, data={'order': '{"lastName":"ghhv@mail.ru"}'})
@@ -52,8 +52,7 @@ async def check_mail(client):
         #response = await client.post(retailCRM, payload)
         
         #data = json.dumps(data)
-        #response = await client.get("https://mdevelopeur.retailcrm.ru/api/v5/orders/create?apiKey=nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G", data=data)
-        #print(response)
+        
         print('OK', data)
         for num in data[0].split():
             print(num)
@@ -65,7 +64,7 @@ async def check_mail(client):
                 print('Date:' + email_message['Date'])
                 print('Subject:' + str(email_message['Subject']))
                 response = await client.post(retailCRM, payload)
-                #response = await client.get(hook + '?Subject=' + email_message['Subject'] + '&email=' + email_message['From'])
+                
                 print(response)
                 return response
     return None
@@ -86,95 +85,6 @@ class Lead(BaseModel):
 
 async def get_body(request: Request):
     return await request.json()
-
-async def get_users(client):
-    response = await client.post(url + 'user.get.json', headers=headers)
-    response_content = response.content
-    print(f"Response content: {response_content}")
-    if response.status_code != 200:
-        print(f"Error: {response.status_code}")
-        return None
-    try:
-        return response.json()
-    except json.JSONDecodeError:
-        print("Failed to decode JSON response")
-        return None
-
-async def check_lead(client, name):
-    data = {
-       'filter'  : {'=TITLE' : name}
-    }
-    data = json.dumps(data)
-    response = await client.post(url + 'crm.lead.list.json', headers=headers, data=data)
-    response_content = response.content
-    print(f"Response content: {response_content}")
-    if response.status_code == 204:
-        return response.status_code
-    try:
-        return response.json()
-    except json.JSONDecodeError:
-        print("Failed to decode JSON response")
-        return None
-
-async def get_leads(client, start):
-    data = {
-       'start' : start, 
-       'select' : ['TITLE','UF_CRM_URL', 'ASSIGNED_BY_ID', 'COMMENTS', 'DATE_CREATE', 'DATE_MODIFY', 'STAGE_ID']
-    }
-    data = json.dumps(data)
-    response = await client.post(url + 'crm.deal.list.json', headers=headers, data=data)
-    response_content = response.content
-    print(f"Response content: {response_content}")
-    if response.status_code == 204:
-        return response.status_code
-    try:
-        return response.json()
-    except json.JSONDecodeError:
-        print("Failed to decode JSON response")
-        return None
-
-async def post_lead(client, data):
-    data = {
-       'fields': {
-              'TITLE': data.name.replace('На карте', ''),
-              'ASSIGNED_BY_ID': data.user_id,
-                #'ADDRESS': data.address.replace('На карте', ''),  
-                'UF_CRM_PRICE' : data.price,
-                 'CATEGORY_ID': 0,
-                    'UF_CRM_URL': data.link,
-                      'UF_CRM_SELLER': data.seller.replace('Автор объявления', ''),
-                        'OPPORTUNITY': int(round(data.price * 0.03)),
-                        'UF_CRM_PHONE': data.phone
-       },
-
-    }
-    data = json.dumps(data)
-    response = await client.post(url + 'crm.deal.add.json', headers=headers, data=data)
-    response_content = response.content
-    print(f"Response content: {response_content}")
-    try:
-        return response.json()
-    except json.JSONDecodeError:
-        print("Failed to decode JSON response")
-        return None
-
-async def patch_lead(client, data):
-    data = {
-        'id': data.lead_id,
-          'fields': {
-              'ASSIGNED_BY_ID': data.user_id,
-                'STATUS_DESCRIPTION': ''
-           }       
-    }
-    data = json.dumps(data)
-    response = await client.patch(url + 'crm.deal.update', headers=headers, data=data)
-    response_content = response.content
-    print(f"Response content: {response_content}")
-    try:
-        return response.json()
-    except json.JSONDecodeError:
-        print("Failed to decode JSON response")
-        return None
 
 async def task(data, type, lead, start):
     async with httpx.AsyncClient() as client:
