@@ -67,7 +67,7 @@ async def get_mail(username, password, imap_server):
         print('fetching...')
         for msg in mailbox.fetch(AND(seen=False)):
             
-            print(msg.date, msg.from_, msg.subject, len(msg.text or msg.html))
+            print(msg.date, msg.from_, msg.subject, msg.from_values, len(msg.text or msg.html))
 
 
 async def task():
