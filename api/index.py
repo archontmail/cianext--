@@ -6,6 +6,7 @@ import asyncio
 import json
 import imaplib
 import email
+from imap_tools import MailBox
 from email.header import decode_header
 import base64
 import re
@@ -27,28 +28,21 @@ password = "zrAUqnFWgD14Ygkq13VK"
 username = "kworktestbox@mail.ru"
 imap_server = "imap.mail.ru"
 
-async def check_mail(client):
-    print('checking started')
-    list = await client.get(orderlist)
-    print(list)
+async def main(client):
     try: 
         print('trying to post')
-        response = await client.post(retailCRM, data={'order': '{"lastName":"ghhv@mail.ru"}'})
+        #response = await client.post(retailCRM, data={'order': '{"lastName":"ghhv@mail.ru"}'})
     except Exception as e:
         print(repr(e))
-    print(response.content)
-    return response.content
+    #print(response.content)
+    #return response.content
+    await get_mail(username, password, imap_server)
     imap = imaplib.IMAP4_SSL(imap_server)
     print(imap)
     print(imap.login(username, password))
     imap.select("INBOX")
     result, data = imap.uid('search', None, "UNSEEN")
-    if result == 'OK':
-        #payload = { order: '"lastName":"ghhv@mail.ru"}'}
-        #response = await client.post(retailCRM, payload)
-        
-        #data = json.dumps(data)
-        
+    if result == 'OK':      
         print('OK', data)
         for num in data[0].split():
             print(num)
@@ -64,7 +58,13 @@ async def check_mail(client):
                 print(response)
                 return response
     return None
-  
+ 
+async def get_mail(username, password, imap_server):
+    with MailBox('imap.mail.com').login('test@mail.com', 'pwd') as mailbox:
+    for msg in mailbox.fetch(seen == false):
+        print(msg.date, msg.subject, len(msg.text or msg.html))
+
+
 async def task(data, type, lead, start):
     async with httpx.AsyncClient() as client:
         tasks = [check_mail(client) for i in range(1)]
@@ -72,7 +72,7 @@ async def task(data, type, lead, start):
         return result
 
 @app.get('/api')
-async def main():
+async def api():
     #start = time()
     output = await task()
     #print("time: ", time() - start)
