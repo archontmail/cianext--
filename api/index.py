@@ -60,7 +60,9 @@ async def main(client):
     return None
  
 async def get_mail(username, password, imap_server):
+    print('connecting to imap server...')
     with MailBox(imap_server).login(username, password) as mailbox:
+        print('fetching...')
         for msg in mailbox.fetch(seen == false):
             print(msg.date, msg.subject, len(msg.text or msg.html))
 
