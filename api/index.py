@@ -17,7 +17,7 @@ app = FastAPI()
 url = 'https://laminat77.retailcrm.ru/api/v5/'
 apikey = 'bma1wovaLnCuJrayUpzUecTIcpdHnw7X'
 #apikey = 'nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
-
+retail_client = retailcrm.v5(url, apikey)
 headers = {
   'X-API-KEY' : apikey
 }
@@ -29,6 +29,7 @@ imap_server = "imap.mail.ru"
 async def main(client):
     messages = await get_mail(username, password, imap_server)
     for msg in messages : 
+        print(retail_client.files_upload([]))
         result = await post_order(client, msg["first_name"], msg["last_name"], msg["email"], msg["subject"], msg["text"], msg["html"], msg["attachments"])
         return result    
 
