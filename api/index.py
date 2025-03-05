@@ -15,7 +15,7 @@ import retailcrm
 app = FastAPI()
 #url = 'https://mdevelopeur.retailcrm.ru/api/v5/'
 url = 'https://laminat77.retailcrm.ru/api/v5/'
-apiKey = 'bma1wovaLnCuJrayUpzUecTIcpdHnw7X'
+apikey = 'bma1wovaLnCuJrayUpzUecTIcpdHnw7X'
 #apikey = 'nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
 
 headers = {
