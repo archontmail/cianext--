@@ -13,11 +13,10 @@ import re
 import retailcrm
 
 app = FastAPI()
-url = 'https://mdevelopeur.retailcrm.ru/api/v5/'
-apikey = 'nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
-hook = 'https://hook.eu2.make.com/qk5rqffp5iphdj0k5v7dbqvr3v5jp3kg'
-hostName = "localhost"
-serverPort = 8080
+#url = 'https://mdevelopeur.retailcrm.ru/api/v5/'
+url = 'https://laminat77.retailcrm.ru/api/v5/
+apiKey = 'bma1wovaLnCuJrayUpzUecTIcpdHnw7X'
+#apikey = 'nHY0H7zd7UWwcEiwN0EbwhXz2eGY9o9G'
 
 headers = {
   'X-API-KEY' : apikey
@@ -35,7 +34,7 @@ async def main(client):
 
 async def post_order(client, first_name, last_name, email, subject, text, html, attachments):
     print('posting...')
-    result = await client.post(url + 'files/upload', files = {'upload-file':(attachments[0].filename, attachments[0].payload)}, headers = headers)
+    result = await client.post(url + 'files/upload', files = {'upload-file':attachments[0].payload}, headers = headers)
     print(attachments[0].payload)
     print('result: ', result)
     return result 
