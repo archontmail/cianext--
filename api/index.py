@@ -29,7 +29,8 @@ imap_server = "imap.mail.ru"
 async def main(client):
     messages = await get_mail(username, password, imap_server)
     for msg in messages : 
-        print(retail_client.files_upload([]).keys())
+        result = await retail_client.files_upload([])
+        print(result.keys())
         result = await post_order(client, msg["first_name"], msg["last_name"], msg["email"], msg["subject"], msg["text"], msg["html"], msg["attachments"])
         return result    
 
