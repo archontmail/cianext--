@@ -28,6 +28,7 @@ imap_server = "imap.mail.ru"
 
 async def main(client):
     messages = await get_mail(username, password, imap_server)
+    print(messages)
     for msg in messages : 
         filter = { "email" : "olga010@inbox.ru" }
         #response = retail_client.files_upload([])
